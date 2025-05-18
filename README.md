@@ -140,4 +140,3 @@ npm run dev
 - Element Plus
 - TypeScript
 - Tailwind Css
-```
