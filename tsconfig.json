@@ -42,8 +42,7 @@
         "types": [
             "vite/client",
             "vue/tsx",
-            "./resources/js/types",
-            "./src/vue-shim.d.ts"
+            "./resources/js/types"
         ] /* Specify type package names to be included without being referenced in a source file. */,
         // "allowUmdGlobalAccess": true,                     /* Allow accessing UMD globals from modules. */
         // "moduleSuffixes": [],                             /* List of file name suffixes to search when resolving a module. */

@@ -8,6 +8,10 @@ import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
+import ToastPlugin from 'vue-toast-notification';
+// Import one of the available themes
+//import 'vue-toast-notification/dist/theme-default.css';
+import 'vue-toast-notification/dist/theme-bootstrap.css';
 
 import httpClient from '@/plugins/axios';
 
@@ -33,6 +37,7 @@ createInertiaApp({
         const lvApp = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(ToastPlugin)
             .use(ElementPlus);
 
         // Register Axios globally

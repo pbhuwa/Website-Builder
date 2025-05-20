@@ -22,8 +22,9 @@
 <script lang="ts">
 import { View } from '@element-plus/icons-vue';
 import { defineComponent } from 'vue';
+import { useToast } from 'vue-toast-notification';
 import PreviewPage from './PreviewPage.vue';
-
+const toast = useToast();
 // Define Website type
 type Website = {
     id: number;
@@ -89,13 +90,13 @@ export default defineComponent({
                     if (response.status === 200) {
                         this.$emit('websiteDeleted', website.id);
                         this.websites = this.websites.filter((w) => w.id !== website.id);
-                        this.$alert(`Website ${website.name} deleted successfully.`);
+                        toast.success(`Website ${website.name} deleted successfully.`);
                     } else {
-                        this.$alert(`Failed to delete website ${website.name}.`, 'Error', 'error');
+                        toast.error(`Failed to delete website ${website.name}.`);
                     }
                 }
             } catch (error) {
-                this.$alert(`Error deleting website ${website.name}.`, 'Error', 'error');
+                toast.error(`Error deleting website ${website.name}.`);
             }
         },
     },
