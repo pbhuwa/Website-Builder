@@ -140,3 +140,8 @@ npm run dev
 - Element Plus
 - TypeScript
 - Tailwind Css
+
+## Screenshots
+![WorkSpace](https://github.com/pbhuwa/Website-Builder/blob/master/Workspace.png?raw=true)
+![WebsiteList](https://github.com/pbhuwa/Website-Builder/blob/master/Website.png?raw=true)
+![Preview](https://github.com/pbhuwa/Website-Builder/blob/master/Preview.png?raw=true)
