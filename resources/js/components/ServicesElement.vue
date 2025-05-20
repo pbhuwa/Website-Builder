@@ -3,7 +3,7 @@
         <div class="container">
             <h2 class="title" :style="element.title.styles">
                 <span v-if="!editing.title">{{ element.title.text }}</span>
-                <input v-else v-model="element.title.text"/>
+                <input v-else v-model="element.title.text" />
             </h2>
 
             <div class="grid">
@@ -25,7 +25,7 @@
 export default {
     props: {
         elementData: Object,
-        isSelected: Boolean
+        isSelected: Boolean,
     },
     data() {
         return {
@@ -33,26 +33,26 @@ export default {
                 title: { text: 'Our Services', styles: { fontSize: '2rem', color: '#2c3e50' } },
                 iconStyles: { fontSize: '2rem', color: '#3498db' },
                 services: [
-                { icon: '🛠️', title: 'Web Development', description: 'Tailored web solutions.' },
-                { icon: '📱', title: 'Mobile Apps', description: 'iOS and Android apps.' }
+                    { icon: '🛠️', title: 'Web Development', description: 'Tailored web solutions.' },
+                    { icon: '📱', title: 'Mobile Apps', description: 'iOS and Android apps.' },
                 ],
-                ...this.elementData
+                ...this.elementData,
             },
-            editing: { title: false, services: [] }
+            editing: { title: false, services: [] },
         };
     },
     computed: {
         elementStyles() {
             return {
-                position: "absolute",
+                position: 'absolute',
                 left: `${this.element.position.x}px`,
                 top: `${this.element.position.y}px`,
-                width: "100%",
-                height: "auto",
-                cursor: this.isSelected ? "move" : "pointer",
-                outline: this.isSelected ? "2px dashed #4CAF50" : "none",
-                padding: "5px",
-                backgroundColor: "transparent",
+                width: '100%',
+                height: 'auto',
+                cursor: this.isSelected ? 'move' : 'pointer',
+                outline: this.isSelected ? '2px dashed #4CAF50' : 'none',
+                padding: '5px',
+                backgroundColor: 'transparent',
                 ...this.element.styles,
             };
         },
@@ -63,10 +63,10 @@ export default {
         },
     },
     watch: {
-      elementData(newVal) {
-        this.element = { ...newVal };
-      },
-    }
+        elementData(newVal) {
+            this.element = { ...newVal };
+        },
+    },
 };
 </script>
 

@@ -1,36 +1,20 @@
 <template>
-    <div
-    class="card-element"
-    :style="elementStyles"
-    @click.stop="selectElement"
-    >
-    <div class="card-body" :style="bodyStyles">
-        <div
-        v-if="!isEditing"
-        class="editable-text"
-        @dblclick="startEditing"
-        v-html="formattedContent"
-        ></div>
-        <textarea
-        v-else
-        ref="editor"
-        v-model="element.content"
-        @blur="stopEditing"
-        @keydown.enter.stop="stopEditing"
-        :style="textStyles"
-        />
+    <div class="card-element" :style="elementStyles" @click.stop="selectElement">
+        <div class="card-body" :style="bodyStyles">
+            <div v-if="!isEditing" class="editable-text" @dblclick="startEditing" v-html="formattedContent"></div>
+            <textarea v-else ref="editor" v-model="element.content" @blur="stopEditing" @keydown.enter.stop="stopEditing" :style="textStyles" />
+        </div>
+        <div v-if="isSelected" class="element-controls">
+            <button @click.stop="$emit('delete')">×</button>
+        </div>
     </div>
-    <div v-if="isSelected" class="element-controls">
-        <button @click.stop="$emit('delete')">×</button>
-    </div>
-</div>
 </template>
 
 <script>
 export default {
     props: {
         elementData: Object,
-        isSelected: Boolean
+        isSelected: Boolean,
     },
     data() {
         return {
@@ -43,10 +27,10 @@ export default {
                     border: '1px solid #ddd',
                     borderRadius: '8px',
                     textAlign: 'center',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                 },
                 bodyStyles: {
-                    padding: '16px'
+                    padding: '16px',
                 },
                 textStyles: {
                     width: '100%',
@@ -58,9 +42,9 @@ export default {
                     fontSize: 'inherit',
                     lineHeight: '1.5',
                 },
-                ...this.elementData
-            }
-        }
+                ...this.elementData,
+            },
+        };
     },
     computed: {
         elementStyles() {
@@ -70,42 +54,42 @@ export default {
                 top: `${this.element.position?.y || 0}px`,
                 cursor: this.isSelected ? 'move' : 'pointer',
                 outline: this.isSelected ? '2px dashed #4CAF50' : 'none',
-                ...this.element.styles
-            }
+                ...this.element.styles,
+            };
         },
         bodyStyles() {
-            return this.element.bodyStyles
+            return this.element.bodyStyles;
         },
         textStyles() {
-            return this.element.textStyles
+            return this.element.textStyles;
         },
         formattedContent() {
-            return this.element.content.replace(/\n/g, '<br>')
-        }
+            return this.element.content.replace(/\n/g, '<br>');
+        },
     },
     methods: {
         selectElement() {
-            this.$emit('selected')
+            this.$emit('selected');
         },
         startEditing() {
             if (this.isSelected) {
-                this.isEditing = true
+                this.isEditing = true;
                 this.$nextTick(() => {
-                    this.$refs.editor.focus()
-                })
+                    this.$refs.editor.focus();
+                });
             }
         },
         stopEditing() {
-            this.isEditing = false
-            this.$emit('update', this.element)
-        }
+            this.isEditing = false;
+            this.$emit('update', this.element);
+        },
     },
     watch: {
         elementData(newVal) {
-            this.element = { ...this.element, ...newVal }
-        }
-    }
-}
+            this.element = { ...this.element, ...newVal };
+        },
+    },
+};
 </script>
 
 <style scoped>
@@ -122,7 +106,7 @@ export default {
 }
 
 .editable-text:hover {
-    background-color: rgba(0,0,0,0.03);
+    background-color: rgba(0, 0, 0, 0.03);
 }
 
 textarea {

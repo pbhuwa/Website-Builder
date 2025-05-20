@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Website;
 
-use App\Models\UserWebsite;
 use Illuminate\Http\Request;
+use App\Models\Website\Website;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\WebsiteRequest;
 use Illuminate\Support\Facades\Storage;
 
-class WebsiteBuilderController extends Controller
+class WebsiteController extends Controller
 {
     /**
      * Display the website list.
@@ -17,7 +18,7 @@ class WebsiteBuilderController extends Controller
     public function list()
     {
         $user = auth()->user();
-        $websites = UserWebsite::where('user_id', $user->id);
+        $websites = Website::where('user_id', $user->id);
 
         if (request()->has('search')) {
             $search = request()->input('search');
@@ -36,7 +37,7 @@ class WebsiteBuilderController extends Controller
      */
     public function save(WebsiteRequest $request)
     {
-        UserWebsite::updateOrCreate(
+        Website::updateOrCreate(
             ['id' => $request->id],
             [
                 'user_id' => auth()->user()->id,
@@ -60,7 +61,7 @@ class WebsiteBuilderController extends Controller
     public function load()
     {
         $user = auth()->user();
-        $website = UserWebsite::where('user_id', $user->id)->first();
+        $website = Website::where('user_id', $user->id)->first();
 
         if (!$website) {
             return response()->json([
@@ -110,7 +111,7 @@ class WebsiteBuilderController extends Controller
      */
     public function delete($id)
     {
-        $website = UserWebsite::find($id);
+        $website = Website::find($id);
 
         if ($website) {
             $website->delete();
@@ -128,7 +129,7 @@ class WebsiteBuilderController extends Controller
      */
     public function getWebsite($id)
     {
-        $website = UserWebsite::find($id);
+        $website = Website::find($id);
 
         if ($website) {
             return response()->json([

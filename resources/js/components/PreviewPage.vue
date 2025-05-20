@@ -3,12 +3,7 @@
         <div class="preview-canvas" :style="[canvasStyle, deviceStyles]">
             <!-- Render elements in fixed order but maintain their positions -->
             <template v-for="element in orderedElements" :key="element.id">
-                <component
-                :is="getComponentName(element.type)"
-                :elementData="element"
-                :isSelected="false"
-                :style="getElementStyles(element)"
-                />
+                <component :is="getComponentName(element.type)" :elementData="element" :isSelected="false" :style="getElementStyles(element)" />
             </template>
         </div>
 
@@ -28,14 +23,14 @@
 </template>
 
 <script lang="ts">
+import { Cellphone, Iphone, Monitor } from '@element-plus/icons-vue';
 import { defineComponent } from 'vue';
-import { Monitor, Cellphone, Iphone } from '@element-plus/icons-vue';
-import HeaderElement from './HeaderElement.vue';
-import HomeElement from './HomeElement.vue';
-import ServicesElement from './ServicesElement.vue';
 import AboutUsElement from './AboutUsElement.vue';
 import ContactElement from './ContactElement.vue';
 import FooterElement from './FooterElement.vue';
+import HeaderElement from './HeaderElement.vue';
+import HomeElement from './HomeElement.vue';
+import ServicesElement from './ServicesElement.vue';
 
 export default defineComponent({
     name: 'WebsitePreview',
@@ -54,7 +49,7 @@ export default defineComponent({
     props: {
         elements: {
             type: Array as () => any[],
-            required: true
+            required: true,
         },
         canvasStyle: {
             type: Object,
@@ -62,41 +57,32 @@ export default defineComponent({
                 width: '100%',
                 minHeight: '100vh',
                 backgroundColor: '#ffffff',
-                position: 'relative'
-            })
-        }
+                position: 'relative',
+            }),
+        },
     },
 
     data() {
         return {
-            device: 'desktop' as 'desktop' | 'tablet' | 'mobile'
+            device: 'desktop' as 'desktop' | 'tablet' | 'mobile',
         };
     },
 
     computed: {
         orderedElements() {
             // Define the desired order of sections
-            const sectionOrder = [
-            'header',
-            'homepage',
-            'services',
-            'about-us',
-            'contact',
-            'footer'
-            ];
+            const sectionOrder = ['header', 'homepage', 'services', 'about-us', 'contact', 'footer'];
 
             // Create a map of elements by type
             const elementsByType: Record<string, any> = {};
-            this.elements.forEach(el => {
+            this.elements.forEach((el) => {
                 if (el.type) {
                     elementsByType[el.type] = el;
                 }
             });
 
             // Return elements in the desired order
-            return sectionOrder
-            .map(type => elementsByType[type])
-            .filter(el => el); // Remove undefined
+            return sectionOrder.map((type) => elementsByType[type]).filter((el) => el); // Remove undefined
         },
 
         deviceStyles() {
@@ -104,38 +90,38 @@ export default defineComponent({
                 ...this.canvasStyle,
                 width: `${this.canvasStyle.width || 1000}px`,
                 height: `${this.canvasStyle.height || 2650}px`,
-                position: 'relative'
+                position: 'relative',
             };
 
             switch (this.device) {
                 case 'tablet':
-                styles.maxWidth = '768px';
-                styles.margin = '0 auto';
-                styles.boxShadow = '0 0 20px rgba(0,0,0,0.2)';
-                break;
+                    styles.maxWidth = '768px';
+                    styles.margin = '0 auto';
+                    styles.boxShadow = '0 0 20px rgba(0,0,0,0.2)';
+                    break;
                 case 'mobile':
-                styles.maxWidth = '375px';
-                styles.margin = '0 auto';
-                styles.boxShadow = '0 0 20px rgba(0,0,0,0.2)';
-                break;
+                    styles.maxWidth = '375px';
+                    styles.margin = '0 auto';
+                    styles.boxShadow = '0 0 20px rgba(0,0,0,0.2)';
+                    break;
                 default:
-                // Desktop - use original styles
-                break;
+                    // Desktop - use original styles
+                    break;
             }
 
             return styles;
-        }
+        },
     },
 
     methods: {
         getComponentName(type: string) {
             const componentMap: Record<string, string> = {
-                'header': 'HeaderElement',
-                'homepage': 'HomeElement',
-                'services': 'ServicesElement',
+                header: 'HeaderElement',
+                homepage: 'HomeElement',
+                services: 'ServicesElement',
                 'about-us': 'AboutUsElement',
-                'contact': 'ContactElement',
-                'footer': 'FooterElement',
+                contact: 'ContactElement',
+                footer: 'FooterElement',
             };
             return componentMap[type] || 'div';
         },
@@ -147,19 +133,19 @@ export default defineComponent({
                 top: `${element.position?.y || 0}px`,
                 width: element.styles?.width || 'auto',
                 zIndex: this.getElementZIndex(element.type), // Add z-index based on type
-                ...element.styles
+                ...element.styles,
             };
         },
 
         getElementZIndex(type: string) {
             // Assign z-index based on element type to ensure proper stacking
             const zIndexMap: Record<string, number> = {
-                'header': 100,
-                'homepage': 90,
-                'services': 80,
+                header: 100,
+                homepage: 90,
+                services: 80,
                 'about-us': 70,
-                'contact': 60,
-                'footer': 50
+                contact: 60,
+                footer: 50,
             };
             return zIndexMap[type] || 1;
         },
@@ -170,8 +156,8 @@ export default defineComponent({
 
         closePreview() {
             this.$emit('close');
-        }
-    }
+        },
+    },
 });
 </script>
 
@@ -226,7 +212,7 @@ export default defineComponent({
     background-color: white;
     margin-bottom: 20px;
     position: relative;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .preview-controls {
@@ -238,7 +224,7 @@ export default defineComponent({
     background: white;
     padding: 10px;
     border-radius: 4px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
     z-index: 1001;
 }
 </style>

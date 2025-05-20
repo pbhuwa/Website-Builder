@@ -1,3 +1,12 @@
+<template>
+  <AvatarFallback
+    data-slot="avatar-fallback"
+    v-bind="delegatedProps"
+    :class="cn('bg-muted flex size-full items-center justify-center rounded-full', props.class)"
+  >
+    <slot />
+  </AvatarFallback>
+</template>
 <script setup lang="ts">
 import { cn } from '@/lib/utils'
 import { AvatarFallback, type AvatarFallbackProps } from 'reka-ui'
@@ -11,13 +20,3 @@ const delegatedProps = computed(() => {
   return delegated
 })
 </script>
-
-<template>
-  <AvatarFallback
-    data-slot="avatar-fallback"
-    v-bind="delegatedProps"
-    :class="cn('bg-muted flex size-full items-center justify-center rounded-full', props.class)"
-  >
-    <slot />
-  </AvatarFallback>
-</template>

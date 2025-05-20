@@ -5,15 +5,15 @@
     </AppLayout>
 </template>
 <script setup lang="ts">
-    import AppLayout from '@/layouts/AppLayout.vue';
-    import { type BreadcrumbItem } from '@/types';
-    import { Head } from '@inertiajs/vue3';
-    import CanvasWorkspace from '@/components/CanvasWorkspace.vue';
+import CanvasWorkspace from '@/components/CanvasWorkspace.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { type BreadcrumbItem } from '@/types';
+import { Head } from '@inertiajs/vue3';
 
-    const breadcrumbs: BreadcrumbItem[] = [
-        {
-            title: 'WorkSpace',
-            href: '/dashboard',
-        },
-    ];
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'WorkSpace',
+        href: '/dashboard',
+    },
+];
 </script>

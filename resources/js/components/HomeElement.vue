@@ -1,40 +1,27 @@
 <template>
-    <div
-    class="homepage-element"
-    :style="elementStyles"
-    @click.stop="selectElement"
-    >
-    <!-- Background Image -->
-    <div
-    class="background-image"
-    :style="backgroundImageStyles"
-    ></div>
+    <div class="homepage-element" :style="elementStyles" @click.stop="selectElement">
+        <!-- Background Image -->
+        <div class="background-image" :style="backgroundImageStyles"></div>
 
-    <!-- Content Container -->
-    <div class="content-container" :style="contentStyles">
-        <slot></slot>
-    </div>
+        <!-- Content Container -->
+        <div class="content-container" :style="contentStyles">
+            <slot></slot>
+        </div>
 
-    <!-- Element Controls -->
-    <div v-if="isSelected" class="element-controls">
-        <button @click.stop="$emit('delete')">×</button>
-        <button @click.stop="openImagePicker">🖼️</button>
-        <input
-        type="file"
-        ref="imageInput"
-        @change="handleImageUpload"
-        style="display: none"
-        accept="image/*"
-        >
+        <!-- Element Controls -->
+        <div v-if="isSelected" class="element-controls">
+            <button @click.stop="$emit('delete')">×</button>
+            <button @click.stop="openImagePicker">🖼️</button>
+            <input type="file" ref="imageInput" @change="handleImageUpload" style="display: none" accept="image/*" />
+        </div>
     </div>
-</div>
 </template>
 
 <script>
 export default {
     props: {
         elementData: Object,
-        isSelected: Boolean
+        isSelected: Boolean,
     },
     data() {
         return {
@@ -44,19 +31,19 @@ export default {
                     size: 'cover',
                     position: 'center',
                     repeat: 'no-repeat',
-                    opacity: 1
+                    opacity: 1,
                 },
                 contentStyles: {
                     padding: '80px 20px',
                     maxWidth: '1200px',
-                    margin: '0 auto'
+                    margin: '0 auto',
                 },
                 styles: {
                     minHeight: '100vh',
-                    position: 'relative'
+                    position: 'relative',
                 },
-                ...this.elementData
-            }
+                ...this.elementData,
+            },
         };
     },
     computed: {
@@ -68,7 +55,7 @@ export default {
                 left: `${this.element.position.x}px`,
                 top: `${this.element.position.y}px`,
                 minHeight: '100vh',
-                position: 'relative'
+                position: 'relative',
             };
         },
         backgroundImageStyles() {
@@ -84,7 +71,7 @@ export default {
                 backgroundPosition: this.element.backgroundStyles.position,
                 backgroundRepeat: this.element.backgroundStyles.repeat,
                 opacity: this.element.backgroundStyles.opacity,
-                zIndex: 0
+                zIndex: 0,
             };
         },
         contentStyles() {
@@ -92,9 +79,9 @@ export default {
                 ...this.element.contentStyles,
                 position: 'relative',
                 zIndex: 1,
-                minHeight: '100vh' // Ensure content container also spans full height
+                minHeight: '100vh', // Ensure content container also spans full height
             };
-        }
+        },
     },
     methods: {
         selectElement() {
@@ -113,8 +100,8 @@ export default {
 
                 const response = await axios.post('/api/upload-image', formData, {
                     headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
+                        'Content-Type': 'multipart/form-data',
+                    },
                 });
 
                 this.element.backgroundImage = response.data.url;
@@ -122,13 +109,13 @@ export default {
             } catch (error) {
                 console.error('Image upload failed:', error);
             }
-        }
+        },
     },
     watch: {
         elementData(newVal) {
             this.element = { ...this.element, ...newVal };
-        }
-    }
+        },
+    },
 };
 </script>
 
@@ -155,7 +142,7 @@ export default {
 }
 
 .element-controls button {
-    background: rgba(0,0,0,0.7);
+    background: rgba(0, 0, 0, 0.7);
     color: white;
     border: none;
     border-radius: 4px;
@@ -168,6 +155,6 @@ export default {
 }
 
 .element-controls button:hover {
-    background: rgba(0,0,0,0.9);
+    background: rgba(0, 0, 0, 0.9);
 }
 </style>

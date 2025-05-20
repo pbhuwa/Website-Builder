@@ -1,3 +1,6 @@
+<template>
+    <component :is="icon" :class="className" :size="size" :stroke-width="strokeWidth" :color="color" />
+</template>
 <script setup lang="ts">
 import { cn } from '@/lib/utils';
 import * as icons from 'lucide-vue-next';
@@ -24,7 +27,3 @@ const icon = computed(() => {
     return (icons as Record<string, any>)[iconName];
 });
 </script>
-
-<template>
-    <component :is="icon" :class="className" :size="size" :stroke-width="strokeWidth" :color="color" />
-</template>

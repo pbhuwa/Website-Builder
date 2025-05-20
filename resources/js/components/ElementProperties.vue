@@ -77,35 +77,35 @@
             <div class="form-group">
                 <label>Image Size Mode</label>
                 <select v-model="localElement.backgroundStyles.sizeMode" @change="updateElement">
-                <option value="cover">Cover</option>
-                <option value="contain">Contain</option>
-                <option value="custom">Custom Size</option>
+                    <option value="cover">Cover</option>
+                    <option value="contain">Contain</option>
+                    <option value="custom">Custom Size</option>
                 </select>
             </div>
 
             <template v-if="localElement.backgroundStyles.sizeMode === 'custom'">
                 <div class="form-group">
-                <label>Width</label>
-                <input
-                    type="text"
-                    v-model="localElement.backgroundStyles.customWidth"
-                    @change="updateElement"
-                    placeholder="e.g., 100% or 500px"
-                >
+                    <label>Width</label>
+                    <input
+                        type="text"
+                        v-model="localElement.backgroundStyles.customWidth"
+                        @change="updateElement"
+                        placeholder="e.g., 100% or 500px"
+                    />
                 </div>
                 <div class="form-group">
-                <label>Height</label>
-                <input
-                    type="text"
-                    v-model="localElement.backgroundStyles.customHeight"
-                    @change="updateElement"
-                    placeholder="e.g., auto or 300px"
-                >
+                    <label>Height</label>
+                    <input
+                        type="text"
+                        v-model="localElement.backgroundStyles.customHeight"
+                        @change="updateElement"
+                        placeholder="e.g., auto or 300px"
+                    />
                 </div>
             </template>
 
             <!-- Max Dimensions Warning -->
-            <div class="bg-yellow-50 p-2 text-sm mb-4" v-if="localElement.maxImageSize">
+            <div class="mb-4 bg-yellow-50 p-2 text-sm" v-if="localElement.maxImageSize">
                 Max recommended dimensions: {{ localElement.maxImageSize.width }}×{{ localElement.maxImageSize.height }}px
             </div>
         </template>
@@ -115,25 +115,25 @@
             <!-- Background Settings -->
             <div class="form-group">
                 <label>Background Color</label>
-                <input type="color" v-model="localElement.backgroundStyles.color" @change="updateElement">
+                <input type="color" v-model="localElement.backgroundStyles.color" @change="updateElement" />
             </div>
 
             <div class="form-group">
                 <label>Background Image</label>
                 <button @click="triggerImageUpload">Upload Image</button>
-                <input type="file" ref="bgImageInput" @change="handleBgImageUpload" style="display: none">
+                <input type="file" ref="bgImageInput" @change="handleBgImageUpload" style="display: none" />
             </div>
 
             <!-- Content Settings -->
             <div class="form-group">
                 <label>Show Team Section</label>
-                <input type="checkbox" v-model="localElement.showTeam" @change="updateElement">
+                <input type="checkbox" v-model="localElement.showTeam" @change="updateElement" />
             </div>
 
             <!-- Team Member Limit -->
             <div class="form-group" v-if="localElement.showTeam">
                 <label>Max Team Members</label>
-                <input type="number" v-model="localElement.team.maxMembers" min="1" max="12" @change="updateElement">
+                <input type="number" v-model="localElement.team.maxMembers" min="1" max="12" @change="updateElement" />
             </div>
         </template>
 
@@ -141,29 +141,17 @@
         <template v-if="element.type === 'footer'">
             <div class="form-group">
                 <label>Footer Text</label>
-                <input
-                type="text"
-                v-model="localElement.text"
-                @change="updateElement"
-                />
+                <input type="text" v-model="localElement.text" @change="updateElement" />
             </div>
 
             <div class="form-group">
                 <label>Background Color</label>
-                <input
-                type="color"
-                v-model="localElement.styles.backgroundColor"
-                @change="updateElement"
-                />
+                <input type="color" v-model="localElement.styles.backgroundColor" @change="updateElement" />
             </div>
 
             <div class="form-group">
                 <label>Text Color</label>
-                <input
-                type="color"
-                v-model="localElement.styles.color"
-                @change="updateElement"
-                />
+                <input type="color" v-model="localElement.styles.color" @change="updateElement" />
             </div>
         </template>
 
@@ -282,82 +270,84 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            element: Object
+export default {
+    props: {
+        element: Object,
+    },
+    data() {
+        return {
+            localElement: JSON.parse(JSON.stringify(this.element)),
+        };
+    },
+    watch: {
+        element: {
+            deep: true,
+            handler(newVal) {
+                this.localElement = JSON.parse(JSON.stringify(newVal));
+            },
         },
-        data() {
-            return {
-                localElement: JSON.parse(JSON.stringify(this.element))
-            };
+    },
+    methods: {
+        updateElement() {
+            this.$emit('update', this.localElement);
         },
-        watch: {
-            element: {
-                deep: true,
-                handler(newVal) {
-                    this.localElement = JSON.parse(JSON.stringify(newVal));
-                }
+        triggerImageUpload() {
+            this.$refs.bgImageInput.click();
+        },
+        async handleBgImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            try {
+                const formData = new FormData();
+                formData.append('image', file);
+
+                const response = await axios.post('/api/upload-image', formData);
+                this.localElement.backgroundImage = response.data.url;
+                this.updateElement();
+            } catch (error) {
+                console.error('Upload failed:', error);
             }
         },
-        methods: {
-            updateElement() {
-                this.$emit('update', this.localElement);
-            },
-            triggerImageUpload() {
-                this.$refs.bgImageInput.click();
-            },
-            async handleBgImageUpload(event) {
-                const file = event.target.files[0];
-                if (!file) return;
-
-                try {
-                    const formData = new FormData();
-                    formData.append('image', file);
-
-                    const response = await axios.post('/api/upload-image', formData);
-                    this.localElement.backgroundImage = response.data.url;
-                    this.updateElement();
-                } catch (error) {
-                    console.error('Upload failed:', error);
-                }
-            },
-        }
-    };
+    },
+};
 </script>
 
 <style scoped>
-    .properties-form {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
+.properties-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
 
-    .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-    }
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
 
-    label {
-        font-weight: 500;
-        font-size: 14px;
-    }
+label {
+    font-weight: 500;
+    font-size: 14px;
+}
 
-    input, textarea, select {
-        padding: 8px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 14px;
-    }
+input,
+textarea,
+select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
 
-    textarea {
-        min-height: 80px;
-        resize: vertical;
-    }
+textarea {
+    min-height: 80px;
+    resize: vertical;
+}
 
-    input[type="color"] {
-        height: 40px;
-        padding: 2px;
-        cursor: pointer;
-    }
+input[type='color'] {
+    height: 40px;
+    padding: 2px;
+    cursor: pointer;
+}
 </style>

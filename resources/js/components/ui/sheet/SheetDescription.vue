@@ -1,3 +1,12 @@
+<template>
+  <DialogDescription
+    data-slot="sheet-description"
+    :class="cn('text-muted-foreground text-sm', props.class)"
+    v-bind="delegatedProps"
+  >
+    <slot />
+  </DialogDescription>
+</template>
 <script setup lang="ts">
 import { cn } from '@/lib/utils'
 import { DialogDescription, type DialogDescriptionProps } from 'reka-ui'
@@ -11,13 +20,3 @@ const delegatedProps = computed(() => {
   return delegated
 })
 </script>
-
-<template>
-  <DialogDescription
-    data-slot="sheet-description"
-    :class="cn('text-muted-foreground text-sm', props.class)"
-    v-bind="delegatedProps"
-  >
-    <slot />
-  </DialogDescription>
-</template>

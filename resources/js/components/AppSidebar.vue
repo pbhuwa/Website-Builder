@@ -43,5 +43,4 @@ const mainNavItems: NavItem[] = [
         icon: Globe,
     },
 ];
-
 </script>

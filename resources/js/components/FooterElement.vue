@@ -1,30 +1,26 @@
 <template>
-    <footer
-    class="footer-element"
-    :style="footerStyles"
-    @click.stop="selectElement"
-    >
-    <div class="footer-content">
-        {{ element.text || "Footer Content" }}
-    </div>
+    <footer class="footer-element" :style="footerStyles" @click.stop="selectElement">
+        <div class="footer-content">
+            {{ element.text || 'Footer Content' }}
+        </div>
 
-    <!-- Delete button (visible when selected) -->
-    <div v-if="isSelected" class="element-controls">
-        <button @click.stop="$emit('delete')">×</button>
-    </div>
-</footer>
+        <!-- Delete button (visible when selected) -->
+        <div v-if="isSelected" class="element-controls">
+            <button @click.stop="$emit('delete')">×</button>
+        </div>
+    </footer>
 </template>
 
 <script>
 export default {
     props: {
         elementData: Object,
-        isSelected: Boolean
+        isSelected: Boolean,
     },
     data() {
         return {
             element: {
-                text: "© 2023 My Website. All rights reserved.",
+                text: '© 2023 My Website. All rights reserved.',
                 styles: {
                     position: 'absolute',
                     bottom: '0',
@@ -33,10 +29,10 @@ export default {
                     backgroundColor: '#2d3748',
                     color: 'white',
                     padding: '20px',
-                    textAlign: 'center'
+                    textAlign: 'center',
                 },
-                ...this.elementData
-            }
+                ...this.elementData,
+            },
         };
     },
     computed: {
@@ -49,18 +45,18 @@ export default {
                 outline: this.isSelected ? '2px dashed #4CAF50' : 'none',
                 ...this.element.styles,
             };
-        }
+        },
     },
     methods: {
         selectElement() {
             this.$emit('selected');
-        }
+        },
     },
     watch: {
         elementData(newVal) {
-            this.element = { ...this.element, ...newVal }
-        }
-    }
+            this.element = { ...this.element, ...newVal };
+        },
+    },
 };
 </script>
 
