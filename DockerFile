@@ -43,7 +43,7 @@ RUN chown -R www-data:www-data /var/www/html/storage
 RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
 
 # Configure nginx
-COPY docker/nginx.conf /etc/nginx/sites-available/default
+COPY ./nginx.conf /etc/nginx/sites-available/default
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
 
