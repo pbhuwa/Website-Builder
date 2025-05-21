@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 COPY resources ./resources
-COPY vite.config.js ./
+COPY vite.config.ts ./
 RUN npm run build
 
 # Stage 2: Backend setup
